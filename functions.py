@@ -113,4 +113,33 @@ def add_angles_ba(angle1, angle2):
     else:
         sum.degrees += angle1.degrees + angle2.degrees
 
+    # If sum is yet still greater than 360 degrees, subtract 360
+    if sum.degrees > 360:
+        sum.degrees -= 360
+
     return sum
+
+
+# Return sum > 360 deg
+def add_angles_raw(angle1, angle2):
+    # Initialize sum
+    sum = classes.Angle("Sum", 0, 0, 0)
+
+    # If sum of seconds is greater than 60, add 1 minute and subtract 60 seconds
+    if angle1.seconds + angle2.seconds >= 60:
+        sum.minutes = 1
+        sum.seconds = angle1.seconds + angle2.seconds - 60
+    else:
+        sum.seconds += angle1.seconds + angle2.seconds
+
+    # If sum of minutes is greater than 60, add 1 degree and subtract 60 minutes
+    if angle1.minutes + angle2.minutes + sum.minutes >= 60:
+        sum.degrees = 1
+        sum.minutes += angle1.minutes + angle2.minutes - 60
+    else:
+        sum.minutes += angle1.minutes + angle2.minutes
+
+    sum.degrees += angle1.degrees + angle2.degrees
+
+    return sum
+
